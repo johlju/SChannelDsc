@@ -5,6 +5,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- SChannelDsc
+  - Update module to latest DSCCommunity format.
+  - Rename SChannelDsc.Utils to SChannelDsc.Common.
+  - Convert SChannelDsc.Common a buildable nested module.
+  - Update case on resource README files.
+
 ## [1.5.0] - 2026-01-27
 
 ### Changed
