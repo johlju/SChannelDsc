@@ -9,11 +9,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - SChannelDsc
   - Changed the build pipeline to use the build worked image `windows-latest`.
-  - Updated repository files from Sampler template.
-  - Fixed README.
-  - Use PublishCodeCoverageResults@2.
-  - Fix deploy step. [Fixes #45](https://github.com/dsccommunity/SChannelDsc/issues/45)
-  - Renamed `master` branch to `main` - Fixes [Issue #41](https://github.com/dsccommunity/SChannelDsc/issues/41)
+- Protocol
+  - Setting `State` to `Enabled` exclusively uses '1', instead of '4294967295', when assessing the associated
+    registry key value ([issue 32](https://github.com/dsccommunity/SChannelDsc/issues/32) and
+    [issue 38](https://github.com/dsccommunity/SChannelDsc/issues/38)).
+
+### Fixed
+
+- Updated repository files from Sampler template.
+- Fixed README.
+- Use PublishCodeCoverageResults@2.
+- Fix deploy step. [Fixes #45](https://github.com/dsccommunity/SChannelDsc/issues/45)
+- Renamed `master` branch to `main` - Fixes [Issue #41](https://github.com/dsccommunity/SChannelDsc/issues/41)
 
 ## [1.4.0] - 2022-05-17
 
