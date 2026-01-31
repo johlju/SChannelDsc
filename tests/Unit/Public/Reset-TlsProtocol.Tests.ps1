@@ -203,29 +203,32 @@ Describe 'Reset-TlsProtocol' -Tag 'Public' {
             $null = New-Item -Path 'TestRegistry:\SCHANNEL\Protocols\TLS 1.3\Server' -Force
             $null = New-ItemProperty -Path 'TestRegistry:\SCHANNEL\Protocols\TLS 1.3\Server' -Name 'Enabled' -Value 1 -Force
 
-            # Mock Get-TlsProtocolRegistryPath to return TestRegistry path
-            Mock -CommandName Get-TlsProtocolRegistryPath -MockWith {
-                $protocolKeyName = switch ($Protocol)
-                {
-                    ([System.Security.Authentication.SslProtocols]::Tls12) { 'TLS 1.2' }
-                    ([System.Security.Authentication.SslProtocols]::Tls13) { 'TLS 1.3' }
-                }
-
-                $target = if ($Client) { 'Client' } else { 'Server' }
-
-                return "TestRegistry:\SCHANNEL\Protocols\$protocolKeyName\$target"
+            # Mock Get-TlsProtocolRegistryPath to return TestRegistry path for TLS 1.2 Server
+            Mock -CommandName Get-TlsProtocolRegistryPath -ParameterFilter {
+                $Protocol -eq [System.Security.Authentication.SslProtocols]::Tls12 -and -not $Client
+            } -MockWith {
+                return 'TestRegistry:\SCHANNEL\Protocols\TLS 1.2\Server'
             }
 
-            Mock -CommandName ConvertTo-TlsProtocolRegistryKeyName -MockWith {
-                switch ($Protocol)
-                {
-                    ([System.Security.Authentication.SslProtocols]::Tls12) { 'TLS 1.2' }
-                    ([System.Security.Authentication.SslProtocols]::Tls13) { 'TLS 1.3' }
-                }
+            # Mock Get-TlsProtocolRegistryPath to return TestRegistry path for TLS 1.2 Client
+            Mock -CommandName Get-TlsProtocolRegistryPath -ParameterFilter {
+                $Protocol -eq [System.Security.Authentication.SslProtocols]::Tls12 -and $Client
+            } -MockWith {
+                return 'TestRegistry:\SCHANNEL\Protocols\TLS 1.2\Client'
             }
 
-            Mock -CommandName Get-TlsProtocolTargetRegistryName -MockWith {
-                if ($Client) { 'Client' } else { 'Server' }
+            # Mock Get-TlsProtocolRegistryPath to return TestRegistry path for TLS 1.3 Server
+            Mock -CommandName Get-TlsProtocolRegistryPath -ParameterFilter {
+                $Protocol -eq [System.Security.Authentication.SslProtocols]::Tls13 -and -not $Client
+            } -MockWith {
+                return 'TestRegistry:\SCHANNEL\Protocols\TLS 1.3\Server'
+            }
+
+            # Mock Get-TlsProtocolRegistryPath to return TestRegistry path for TLS 1.3 Client
+            Mock -CommandName Get-TlsProtocolRegistryPath -ParameterFilter {
+                $Protocol -eq [System.Security.Authentication.SslProtocols]::Tls13 -and $Client
+            } -MockWith {
+                return 'TestRegistry:\SCHANNEL\Protocols\TLS 1.3\Client'
             }
         }
 
