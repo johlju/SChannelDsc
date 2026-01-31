@@ -62,6 +62,7 @@ Describe 'Reset-TlsProtocol' -Tag 'Public' {
                 return 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\SSL 3.0\Server'
             }
             Mock -CommandName Test-Path -MockWith { return $true }
+            Mock -CommandName Get-ChildItem -MockWith { return @() }
             Mock -CommandName Remove-Item
         }
 
@@ -136,6 +137,7 @@ Describe 'Reset-TlsProtocol' -Tag 'Public' {
                 return 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Client'
             }
             Mock -CommandName Test-Path -MockWith { return $true }
+            Mock -CommandName Get-ChildItem -MockWith { return @() }
             Mock -CommandName Remove-Item
         }
 
@@ -160,6 +162,7 @@ Describe 'Reset-TlsProtocol' -Tag 'Public' {
             Mock -CommandName Get-TlsProtocolTargetRegistryName -MockWith { return 'Server' }
             Mock -CommandName Get-TlsProtocolRegistryPath -MockWith { return 'HKLM:\MockPath' }
             Mock -CommandName Test-Path -MockWith { return $true }
+            Mock -CommandName Get-ChildItem -MockWith { return @() }
             Mock -CommandName Remove-Item
         }
 
@@ -185,6 +188,7 @@ Describe 'Reset-TlsProtocol' -Tag 'Public' {
             Mock -CommandName Get-TlsProtocolTargetRegistryName -MockWith { return 'Server' }
             Mock -CommandName Get-TlsProtocolRegistryPath -MockWith { return 'HKLM:\MockPath' }
             Mock -CommandName Test-Path -MockWith { return $true }
+            Mock -CommandName Get-ChildItem -MockWith { return @() }
             Mock -CommandName Remove-Item
         }
 
