@@ -207,7 +207,7 @@ Describe 'Reset-TlsProtocol' -Tag 'Public' {
         }
     }
 
-    Context 'When resetting a protocol removal should preserve root registry path' -Skip:(-not $IsWindows -or $PSVersionTable.PSEdition -ne 'Desktop') {
+    Context 'When resetting a protocol removal should preserve root registry path' -Skip:(-not ($PSVersionTable.PSEdition -eq 'Desktop' -or $IsWindows)) {
         BeforeAll {
             # Create the parent Protocols key
             $null = New-Item -Path 'TestRegistry:\SCHANNEL\Protocols' -Force
