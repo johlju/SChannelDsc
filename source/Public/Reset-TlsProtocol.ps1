@@ -112,6 +112,14 @@ function Reset-TlsProtocol
                 try
                 {
                     Remove-Item -Path $regPath -Force -ErrorAction 'Stop'
+
+                    # Remove the parent protocol key if it has no remaining child items
+                    $parentPath = Split-Path -Path $regPath -Parent
+
+                    if ((Test-Path -Path $parentPath) -and -not (Get-ChildItem -Path $parentPath))
+                    {
+                        Remove-Item -Path $parentPath -Force -ErrorAction 'Stop'
+                    }
                 }
                 catch
                 {
