@@ -86,6 +86,29 @@ Describe 'Reset-TlsProtocol' -Tag 'Public' {
         }
     }
 
+    Context 'When Remove-Item fails' {
+        BeforeAll {
+            Mock -CommandName ConvertTo-TlsProtocolRegistryKeyName -MockWith { return 'TLS 1.2' }
+            Mock -CommandName Get-TlsProtocolTargetRegistryName -MockWith { return 'Server' }
+            Mock -CommandName Get-TlsProtocolRegistryPath -MockWith {
+                return 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.2\Server'
+            }
+            Mock -CommandName Test-Path -MockWith { return $true }
+            Mock -CommandName Remove-Item -MockWith {
+                throw 'Access denied'
+            }
+        }
+
+        It 'Should throw a terminating error with error ID RTP0001' {
+            $mockErrorMessage = InModuleScope -ScriptBlock {
+                $script:localizedData.Reset_TlsProtocol_FailedToReset
+            }
+
+            { Reset-TlsProtocol -Protocol ([System.Security.Authentication.SslProtocols]::Tls12) -Force } |
+                Should -Throw -ExpectedMessage ($mockErrorMessage -f 'Tls12') -ErrorId 'RTP0001*'
+        }
+    }
+
     Context 'When resetting a protocol and registry key does not exist' {
         BeforeAll {
             Mock -CommandName ConvertTo-TlsProtocolRegistryKeyName -MockWith { return 'TLS 1.2' }
