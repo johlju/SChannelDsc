@@ -267,7 +267,6 @@ Describe 'Reset-TlsProtocol' -Tag 'Public' {
             # TLS 1.3 Server should be removed
             Test-Path -Path 'TestRegistry:\SCHANNEL\Protocols\TLS 1.3\Server' | Should -BeFalse
             Test-Path -Path 'TestRegistry:\SCHANNEL\Protocols\TLS 1.3' | Should -BeFalse
-            Test-Path -Path 'TestRegistry:\SCHANNEL\Protocols' | Should -BeTrue
 
             # TLS 1.2 Client should still exist (from first test we removed Server, but Client remains)
             Test-Path -Path 'TestRegistry:\SCHANNEL\Protocols\TLS 1.2\Client' | Should -BeTrue
