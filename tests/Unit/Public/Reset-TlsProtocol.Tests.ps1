@@ -81,7 +81,7 @@ Describe 'Reset-TlsProtocol' -Tag 'Public' {
                 $Client -eq $false
             } -Exactly -Times 1 -Scope It
 
-            Should -Invoke -CommandName Test-Path -Exactly -Times 1 -Scope It
+            Should -Invoke -CommandName Test-Path -Exactly -Times 2 -Scope It
             Should -Invoke -CommandName Remove-Item -Exactly -Times 1 -Scope It
         }
     }
